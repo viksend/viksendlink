@@ -1,0 +1,233 @@
+/* --- Базовые настройки стиля --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    letter-spacing: -0.01em;
+}
+
+body, html {
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #030107; /* Ультра-глубокий черный с фиолетовым отливом */
+    color: #f5f5f7; /* Каноничный белый цвет Apple */
+}
+
+/* --- Задний фон с частицами --- */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* --- Основной контейнер --- */
+.main-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.container {
+    background: rgba(12, 8, 20, 0.4); /* Фирменный матовый Apple Glassmorphism */
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 28px;
+    padding: 50px 30px;
+    width: 100%;
+    max-width: 390px; /* Идеальная мобильная ширина */
+    text-align: center;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+}
+
+/* --- Профиль --- */
+.profile-header {
+    margin-bottom: 40px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.1);
+    margin-bottom: 20px;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.avatar:hover {
+    transform: scale(1.04);
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 35px rgba(168, 85, 247, 0.3);
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 6px;
+    text-transform: lowercase;
+}
+
+.bio {
+    font-size: 0.85rem;
+    color: #86868b; /* Серый цвет текста из спецификаций Apple */
+    font-weight: 400;
+}
+
+/* --- Ссылки --- */
+.links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* --- Кнопки с эффектом «Apple Light» --- */
+.link-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 18px;
+    color: #e8e8ed;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    overflow: hidden; /* Чтобы блик не вылетал за границы кнопки */
+    transition: all 0.5s cubic-bezier(0.15, 0.85, 0.3, 1);
+}
+
+.btn-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 2; /* Поверх блика */
+}
+
+.btn-content i {
+    font-size: 1.1rem;
+    color: #86868b;
+    transition: color 0.5s ease;
+}
+
+/* Стрелочка */
+.arrow {
+    font-size: 0.75rem;
+    color: #424245;
+    z-index: 2;
+    transition: all 0.5s cubic-bezier(0.15, 0.85, 0.3, 1);
+}
+
+/* --- Световой переливающийся блик (Шиммер) --- */
+.link-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    /* Мягкий луч света: белый переходит в фиолетовый неон */
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.08) 30%, 
+        rgba(168, 85, 247, 0.25) 50%, 
+        rgba(255, 255, 255, 0.08) 70%, 
+        transparent
+    );
+    transform: skewX(-25deg); /* Наклон светового луча */
+    z-index: 1;
+    transition: none;
+}
+
+/* --- Эффекты при наведении (Активация света) --- */
+.link-btn:hover {
+    background: rgba(168, 85, 247, 0.04); /* Легкий внутренний фиолетовый тон */
+    border-color: rgba(168, 85, 247, 0.4); /* Границы начинают светиться */
+    color: #ffffff;
+    transform: scale(1.015); /* Очень легкое премиальное увеличение */
+    /* Объемное неоновое свечение (Drop Shadow), рассеивающееся как настоящий свет */
+    box-shadow: 
+        0 0 20px rgba(168, 85, 247, 0.15), 
+        0 0 40px rgba(168, 85, 247, 0.05),
+        inset 0 0 12px rgba(168, 85, 247, 0.1); /* Внутреннее свечение */
+}
+
+/* Запуск бесконечного движения луча света при наведении */
+.link-btn:hover::before {
+    animation: apple-shimmer 1.6s infinite ease-in-out;
+}
+
+.link-btn:hover .btn-content i {
+    color: #c084fc; /* Иконка плавно окрашивается в фиолетовый */
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+}
+
+.link-btn:hover .arrow {
+    color: #c084fc;
+    transform: translate(2px, -2px);
+}
+
+/* Особый статус для кнопки DonateX */
+.link-btn.donate {
+    border-color: rgba(168, 85, 247, 0.15);
+}
+.link-btn.donate:hover {
+    background: rgba(168, 85, 247, 0.08);
+    box-shadow: 
+        0 0 25px rgba(168, 85, 247, 0.25), 
+        0 0 50px rgba(168, 85, 247, 0.1);
+}
+
+/* --- Анимация бегущего света --- */
+@keyframes apple-shimmer {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
+    }
+}
+
+/* --- Минималистичный футер --- */
+.footer {
+    margin-top: 40px;
+    font-size: 0.7rem;
+    color: #424245;
+    text-transform: lowercase;
+}
+/* --- Стили для никнейма и гифки-значка --- */
+.nickname-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px; /* Расстояние между ником и гифкой */
+    margin-bottom: 6px;
+}
+
+/* Обнуляем нижний отступ у h1, так как теперь за него отвечает контейнер */
+.nickname-container h1 {
+    margin-bottom: 0; 
+}
+
+/* Стиль самой гифки в стиле твич-чата */
+.chat-badge {
+    width: 18px;  /* Компактный размер как на Твиче */
+    height: 18px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.5)); /* Легкое фиолетовое свечение для значка */
+    user-select: none;
+    -webkit-user-drag: none;
+}
