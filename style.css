@@ -172,7 +172,7 @@ body, html {
     perspective: 1000px; /* Добавляем глубину для 3D наклона */
 }
 
-/* --- ОСНОВНОЙ КОНТЕЙНЕР (Теперь без багов рендеринга) --- */
+/* --- ОСНОВНОЙ КОНТЕЙНЕР (Чистый каркас для 3D наклона) --- */
 .container {
     position: relative;
     padding: 50px 30px;
@@ -181,26 +181,23 @@ body, html {
     text-align: center;
     border-radius: 32px;
     
-    /* Включаем 3D-пространство для дочерних элементов (аватарки, кнопок) */
+    /* Оставляем 3D пространство для аватарки и кнопок внутри */
     transform-style: preserve-3d; 
     
-    /* Очищаем фон самого контейнера, чтобы он не конфликтовал с 3D */
+    /* Полностью убираем фон, рамки и тени, которые давали баги по краям */
     background: transparent;
     border: none;
+    box-shadow: none;
     
     /* Аппаратное сглаживание */
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    will-change: transform;
     
-    /* Тень оставляем на самом контейнере */
-    box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.8),
-        0 0 50px rgba(168, 85, 247, 0.12);
-        
-    transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.1s ease;
 }
 
-/* --- ВЫДЕЛЕННЫЙ ФОНОВЫЙ СЛОЙ (Стекло и Размытие здесь) --- */
+/* --- ПОДЛОЖКА (Идеальное матовое стекло Apple без бликов и теней) --- */
 .container::before {
     content: '';
     position: absolute;
@@ -209,43 +206,42 @@ body, html {
     right: 0;
     bottom: 0;
     border-radius: 32px;
-    z-index: -1; /* Задний план внутри контейнера */
+    z-index: -1;
     pointer-events: none;
     
-    /* Эффект матового стекла */
+    /* Увеличили матовость (с 0.03 до 0.06), чтобы стекло было более выраженным */
     background: linear-gradient(
         135deg, 
-        rgba(255, 255, 255, 0.03) 0%, 
-        rgba(168, 85, 247, 0.01) 50%, 
-        rgba(255, 255, 255, 0.01) 100%
+        rgba(255, 255, 255, 0.06) 0%, 
+        rgba(168, 85, 247, 0.02) 100%
     ); 
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
     
-    /* Рамка и блик */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    /* Мощное размытие заднего плана (настоящий матовый эффект) */
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
     
-    /* --- СУПЕР-ФИКС ДЛЯ CHROMIUM / SAFARI --- */
-    /* Эта маска принудительно сглаживает углы и края при 3D-трансформациях */
+    /* Минималистичная, еле заметная полупрозрачная рамка */
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    
+    /* Полностью убрали inset тени и внешние свечения, вызывавшие артефакты */
+    box-shadow: none;
+    
+    /* Жесткое аппаратное сглаживание углов маской */
     -webkit-mask-image: -webkit-radial-gradient(white, black);
     mask-image: radial-gradient(white, black);
     
-    /* Плоский рендеринг подложки, чтобы размытие не ломалось в 3D */
+    /* Удерживаем подложку в плоском слое, чтобы размытие не ломалось при наклонах каркаса */
     transform: translateZ(0);
 }
 
-/* Эффект при наведении */
+/* При наведении карточка просто аккуратно наклоняется в 3D, без изменения свечений */
 .container:hover {
-    box-shadow: 
-        0 40px 80px rgba(0, 0, 0, 0.9),
-        0 0 70px rgba(168, 85, 247, 0.22);
+    box-shadow: none;
 }
-
-/* Делаем рамку подложки ярче при наведении */
 .container:hover::before {
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    box-shadow: none;
+    /* Оставляем рамку спокойной, чтобы пиксели не прыгали */
+    border-color: rgba(255, 255, 255, 0.04); 
 }
 
 /* --- Блок профиля --- */
