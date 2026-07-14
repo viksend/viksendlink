@@ -6,7 +6,6 @@
     <title>Links</title>
     
     <link rel="stylesheet" href="style.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -14,9 +13,8 @@
     <div id="particles-js"></div>
 
     <div class="main-wrapper">
-        <div class="container">
+        <div class="container" data-tilt data-tilt-max="6" data-tilt-speed="1000" data-tilt-perspective="1000">
             
-            <!-- Блок профиля -->
             <div class="profile-header">
                 <img src="avatar.png" alt="Avatar" class="avatar">
                 
@@ -30,7 +28,7 @@
 
             <div class="links-list">
                 
-                <a href="https://t.me/твой_телеграм" target="_blank" class="link-btn">
+                <a href="https://t.me/wipixviksend" target="_blank" class="link-btn">
                     <span class="btn-content">
                         <i class="fab fa-telegram-plane"></i>
                         <span>Telegram</span>
@@ -38,7 +36,7 @@
                     <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
                 </a>
                 
-                <a href="https://tiktok.com/@твой_тикток" target="_blank" class="link-btn">
+                <a href="https://tiktok.com/@viksendidk" target="_blank" class="link-btn">
                     <span class="btn-content">
                         <i class="fab fa-tiktok"></i>
                         <span>TikTok</span>
@@ -80,35 +78,37 @@
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    
     <script>
         particlesJS("particles-js", {
             "particles": {
                 "number": { 
-                    "value": 55, /* Немного увеличили количество для лучшего эффекта разлета */
-                    "density": { "enable": true, "value_area": 900 } 
+                    "value": 65, 
+                    "density": { "enable": true, "value_area": 800 } 
                 },
-                "color": { "value": "#a855f7" }, /* Модный фиолетовый неон (Purple) */
+                "color": { "value": "#a855f7" }, 
                 "shape": { "type": "circle" },
                 "opacity": { 
-                    "value": 0.3, /* Сделали чуть ярче, чтобы фиолетовое свечение читалось */
+                    "value": 0.4, /* Сделали частицы ярче, чтобы они круто размывались под стеклом */
                     "random": true, 
-                    "anim": { "enable": true, "speed": 0.5, "opacity_min": 0.1, "sync": false } 
+                    "anim": { "enable": true, "speed": 0.6, "opacity_min": 0.15, "sync": false } 
                 },
                 "size": { 
-                    "value": 3.5, 
+                    "value": 4, 
                     "random": true, 
-                    "anim": { "enable": true, "speed": 1, "size_min": 1, "sync": false } 
+                    "anim": { "enable": true, "speed": 1.2, "size_min": 1, "sync": false } 
                 },
                 "line_linked": { 
                     "enable": true, 
-                    "distance": 150, 
-                    "color": "#a855f7", /* Фиолетовая паутинка связей */
-                    "opacity": 0.12, 
+                    "distance": 130, 
+                    "color": "#a855f7", 
+                    "opacity": 0.15, 
                     "width": 1 
                 },
                 "move": { 
                     "enable": true, 
-                    "speed": 0.8, /* Спокойное базовое парение */
+                    "speed": 0.9, 
                     "direction": "none", 
                     "random": true, 
                     "straight": false, 
@@ -117,26 +117,15 @@
                 }
             },
             "interactivity": {
-                "detect_on": "window", /* "window" вместо canvas, чтобы разлет срабатывал по всей площади экрана */
+                "detect_on": "window", 
                 "events": { 
-                    "onhover": { 
-                        "enable": true, 
-                        "mode": "repulse" /* Эффект разлета частиц при наведении мыши! */
-                    }, 
-                    "onclick": { 
-                        "enable": true, 
-                        "mode": "push" /* Клик взрывает и добавляет новые частицы */
-                    }, 
+                    "onhover": { "enable": true, "mode": "repulse" }, 
+                    "onclick": { "enable": true, "mode": "push" }, 
                     "resize": true 
                 },
                 "modes": { 
-                    "repulse": { 
-                        "distance": 100, /* Радиус, на который частицы будут убегать от курсора */
-                        "duration": 0.4 
-                    },
-                    "push": { 
-                        "particles_nb": 3 /* Сколько частиц добавляется при клике */
-                    }
+                    "repulse": { "distance": 120, "duration": 0.4 },
+                    "push": { "particles_nb": 4 }
                 }
             },
             "retina_detect": true

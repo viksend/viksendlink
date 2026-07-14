@@ -1,20 +1,20 @@
-/* --- Базовые настройки стиля --- */
+/* --- Сброс дефолтных стилей --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.019em;
 }
 
 body, html {
     height: 100%;
     overflow-x: hidden;
-    background-color: #030107; /* Ультра-глубокий черный с фиолетовым отливом */
-    color: #f5f5f7; /* Каноничный белый цвет Apple */
+    background-color: #030107; /* Ультра-глубокий космический черный */
+    color: #f5f5f7;
 }
 
-/* --- Задний фон с частицами --- */
+/* --- Слой частиц --- */
 #particles-js {
     position: fixed;
     width: 100%;
@@ -22,10 +22,9 @@ body, html {
     top: 0;
     left: 0;
     z-index: 1;
-    opacity: 0.8; /* Делает частицы более контрастными, чтобы их было видно сквозь стекло */
 }
 
-/* --- Основной контейнер --- */
+/* --- Главная обертка --- */
 .main-wrapper {
     position: relative;
     z-index: 2;
@@ -34,85 +33,106 @@ body, html {
     align-items: center;
     min-height: 100vh;
     padding: 40px 20px;
+    perspective: 1000px; /* Добавляем глубину для 3D наклона */
 }
 
+/* --- НОВЫЙ СОЧНЫЙ КОНТЕЙНЕР (3D Glass-Neomorphism) --- */
 .container {
-    /* Делаем стекло чуть светлее, чтобы оно контрастировало с черным фоном */
     background: linear-gradient(
         135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(168, 85, 247, 0.03) 100%
+        rgba(255, 255, 255, 0.03) 0%, 
+        rgba(168, 85, 247, 0.01) 50%, 
+        rgba(255, 255, 255, 0.01) 100%
     ); 
-    
-    /* Слегка уменьшаем блюр, чтобы свет от частиц сквозь него вообще мог пробиться */
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-    
-    /* Делаем стеклянный ободок ярче — он даст ту самую фаску глянца */
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    
-    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
     padding: 50px 30px;
     width: 100%;
     max-width: 390px;
     text-align: center;
+    transform-style: preserve-3d; /* Позволяет внутренним элементам выходить в 3D */
     
-    /* Многослойная подсвечивающая тень (Glow-эффект):
-       1. Глубокая тень вниз для объема.
-       2. Мощное, рассеянное фиолетовое свечение НАЗАД, которое создает эффект, 
-          будто плашка лежит на светящемся неоновом коврике.
-       3. Внутренний блик сверху для эффекта Apple-интерфейса.
-    */
+    /* Сложное свечение: жесткая черная тень снизу + мягкая фиолетовая "световая подушка" вокруг */
     box-shadow: 
-        0 40px 80px rgba(0, 0, 0, 0.8),
-        0 0 80px rgba(168, 85, 247, 0.15), /* Неоновый туман за стеклом */
-        inset 0 1px 0 rgba(255, 255, 255, 0.2); 
+        0 30px 60px rgba(0, 0, 0, 0.8),
+        0 0 50px rgba(168, 85, 247, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15); /* Блик на верхнем ребре */
+        
+    transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- Профиль --- */
+/* Эффект, когда при наведении на плашку её свечение становится ярче */
+.container:hover {
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.9),
+        0 0 70px rgba(168, 85, 247, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* --- Блок профиля --- */
 .profile-header {
     margin-bottom: 40px;
+    transform: translateZ(35px); /* Выталкиваем аватарку и ник вперед в 3D */
 }
 
 .avatar {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    box-shadow: 0 0 25px rgba(168, 85, 247, 0.1);
-    margin-bottom: 20px;
+    border: 2px solid rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+    margin-bottom: 24px;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .avatar:hover {
-    transform: scale(1.04);
-    border-color: rgba(168, 85, 247, 0.5);
-    box-shadow: 0 0 35px rgba(168, 85, 247, 0.3);
+    transform: scale(1.05) rotate(3deg);
+    border-color: rgba(168, 85, 247, 0.7);
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.4);
 }
 
-h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 6px;
+.nickname-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.nickname-container h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
     text-transform: lowercase;
 }
 
+.chat-badge {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+}
+
 .bio {
-    font-size: 0.85rem;
-    color: #86868b; /* Серый цвет текста из спецификаций Apple */
+    font-size: 0.88rem;
+    color: #8c829d;
     font-weight: 400;
 }
 
-/* --- Ссылки --- */
+/* --- Кнопки-ссылки --- */
 .links-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
+    transform: translateZ(20px); /* Кнопки тоже слегка приподняты над стеклом */
 }
 
-/* --- Кнопки с эффектом «Apple Light» --- */
 .link-btn {
     position: relative;
     display: flex;
@@ -121,12 +141,12 @@ h1 {
     padding: 18px 24px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: 18px;
-    color: #e8e8ed;
+    border-radius: 20px;
+    color: #d1cbdc;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.98rem;
     font-weight: 500;
-    overflow: hidden; /* Чтобы блик не вылетал за границы кнопки */
+    overflow: hidden;
     transition: all 0.5s cubic-bezier(0.15, 0.85, 0.3, 1);
 }
 
@@ -134,121 +154,92 @@ h1 {
     display: flex;
     align-items: center;
     gap: 14px;
-    z-index: 2; /* Поверх блика */
+    z-index: 2;
 }
 
 .btn-content i {
-    font-size: 1.1rem;
-    color: #86868b;
-    transition: color 0.5s ease;
+    font-size: 1.15rem;
+    color: #8c829d;
+    transition: all 0.5s ease;
 }
 
-/* Стрелочка */
 .arrow {
-    font-size: 0.75rem;
-    color: #424245;
+    font-size: 0.8rem;
+    color: #494156;
     z-index: 2;
     transition: all 0.5s cubic-bezier(0.15, 0.85, 0.3, 1);
 }
 
-/* --- Световой переливающийся блик (Шиммер) --- */
+/* Эффект жидкого светового блика */
 .link-btn::before {
     content: '';
     position: absolute;
     top: 0;
     left: -150%;
-    width: 50%;
+    width: 60%;
     height: 100%;
-    /* Мягкий луч света: белый переходит в фиолетовый неон */
     background: linear-gradient(
         90deg, 
         transparent, 
-        rgba(255, 255, 255, 0.08) 30%, 
-        rgba(168, 85, 247, 0.25) 50%, 
-        rgba(255, 255, 255, 0.08) 70%, 
+        rgba(255, 255, 255, 0.1) 20%, 
+        rgba(168, 85, 247, 0.35) 50%, 
+        rgba(255, 255, 255, 0.1) 80%, 
         transparent
     );
-    transform: skewX(-25deg); /* Наклон светового луча */
+    transform: skewX(-25deg);
     z-index: 1;
-    transition: none;
 }
 
-/* --- Эффекты при наведении (Активация света) --- */
+/* --- Свечение при наведении на кнопку --- */
 .link-btn:hover {
-    background: rgba(168, 85, 247, 0.04); /* Легкий внутренний фиолетовый тон */
-    border-color: rgba(168, 85, 247, 0.4); /* Границы начинают светиться */
+    background: rgba(168, 85, 247, 0.05);
+    border-color: rgba(168, 85, 247, 0.5);
     color: #ffffff;
-    transform: scale(1.015); /* Очень легкое премиальное увеличение */
-    /* Объемное неоновое свечение (Drop Shadow), рассеивающееся как настоящий свет */
+    transform: scale(1.02);
     box-shadow: 
-        0 0 20px rgba(168, 85, 247, 0.15), 
-        0 0 40px rgba(168, 85, 247, 0.05),
-        inset 0 0 12px rgba(168, 85, 247, 0.1); /* Внутреннее свечение */
+        0 10px 25px rgba(168, 85, 247, 0.18),
+        inset 0 0 15px rgba(168, 85, 247, 0.15);
 }
 
-/* Запуск бесконечного движения луча света при наведении */
 .link-btn:hover::before {
-    animation: apple-shimmer 1.6s infinite ease-in-out;
+    animation: apple-shimmer 1.4s infinite ease-in-out;
 }
 
 .link-btn:hover .btn-content i {
-    color: #c084fc; /* Иконка плавно окрашивается в фиолетовый */
-    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+    color: #c084fc;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6));
+    transform: scale(1.1);
 }
 
 .link-btn:hover .arrow {
     color: #c084fc;
-    transform: translate(2px, -2px);
+    transform: translate(3px, -3px) scale(1.1);
 }
 
-/* Особый статус для кнопки DonateX */
+/* Особый стиль кнопки доната */
 .link-btn.donate {
-    border-color: rgba(168, 85, 247, 0.15);
+    background: rgba(168, 85, 247, 0.04);
+    border-color: rgba(168, 85, 247, 0.18);
 }
+
 .link-btn.donate:hover {
-    background: rgba(168, 85, 247, 0.08);
+    background: rgba(168, 85, 247, 0.09);
     box-shadow: 
-        0 0 25px rgba(168, 85, 247, 0.25), 
-        0 0 50px rgba(168, 85, 247, 0.1);
+        0 15px 30px rgba(168, 85, 247, 0.3),
+        inset 0 0 20px rgba(168, 85, 247, 0.2);
 }
 
-/* --- Анимация бегущего света --- */
+/* --- Анимация блика --- */
 @keyframes apple-shimmer {
-    0% {
-        left: -150%;
-    }
-    100% {
-        left: 150%;
-    }
+    0% { left: -150%; }
+    100% { left: 150%; }
 }
 
-/* --- Минималистичный футер --- */
+/* --- Футер --- */
 .footer {
     margin-top: 40px;
-    font-size: 0.7rem;
-    color: #424245;
+    font-size: 0.72rem;
+    color: #494156;
     text-transform: lowercase;
-}
-/* --- Стили для никнейма и гифки-значка --- */
-.nickname-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px; /* Расстояние между ником и гифкой */
-    margin-bottom: 6px;
-}
-
-/* Обнуляем нижний отступ у h1, так как теперь за него отвечает контейнер */
-.nickname-container h1 {
-    margin-bottom: 0; 
-}
-
-/* Стиль самой гифки в стиле твич-чата */
-.chat-badge {
-    width: 18px;  /* Компактный размер как на Твиче */
-    height: 18px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.5)); /* Легкое фиолетовое свечение для значка */
-    user-select: none;
-    -webkit-user-drag: none;
+    transform: translateZ(15px);
 }
