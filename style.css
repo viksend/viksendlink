@@ -24,6 +24,142 @@ body, html {
     z-index: 1;
 }
 
+
+/* --- ДИНАМИЧЕСКИЙ ОСТРОВОК (Apple Dynamic Island) --- */
+.dynamic-island {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100; /* Поверх всего на свете */
+    
+    /* Начальный (схлопнутый) размер */
+    width: 190px;
+    height: 40px;
+    padding: 0 16px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    
+    /* Ультра-плавная эппловская анимация изменения размеров */
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+    
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Эффект легкого подсвечивания при наведении */
+.dynamic-island:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 
+        0 12px 35px rgba(168, 85, 247, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Компактный вид (внутри островка) */
+.island-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 38px; /* Центрирование по высоте базового островка */
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #e2dbe9;
+    gap: 8px;
+}
+
+.island-compact i {
+    font-size: 0.85rem;
+    color: #8c829d;
+    transition: transform 0.4s ease;
+}
+
+/* Скрытый контент с контактами */
+.island-content {
+    opacity: 0;
+    visibility: hidden;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+    transition: opacity 0.3s ease;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: #8c829d;
+}
+
+.contact-item i {
+    width: 16px;
+    color: #c084fc;
+}
+
+.contact-item span {
+    font-weight: 400;
+}
+
+.contact-item a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: #c084fc;
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* --- СОСТОЯНИЕ РАЗВЕРНУТОГО ОСТРОВКА (При клике) --- */
+.dynamic-island.active {
+    width: 320px; /* Расширяется */
+    height: 125px; /* Увеличивается вниз */
+    padding: 0 22px;
+    border-radius: 24px;
+    background: rgba(15, 10, 25, 0.6); /* Становится чуть плотнее, чтобы текст читался */
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(168, 85, 247, 0.15);
+}
+
+/* Показываем контакты при активации */
+.dynamic-island.active .island-content {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.15s; /* Появляются чуть позже, пока идет анимация изменения формы */
+}
+
+/* Переворачиваем стрелочку при развертывании */
+.dynamic-island.active .island-arrow {
+    transform: rotate(180deg);
+    color: #c084fc;
+}
+
+/* Мобильная адаптация для островка */
+@media (max-width: 480px) {
+    .dynamic-island {
+        top: 15px;
+    }
+    .dynamic-island.active {
+        width: calc(100% - 30px); /* Чтобы на мобилках не вылезал за края экрана */
+        max-width: 360px;
+    }
+}
+
 /* --- Главная обертка --- */
 .main-wrapper {
     position: relative;
