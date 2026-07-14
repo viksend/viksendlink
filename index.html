@@ -153,24 +153,23 @@
     </script>
 
     <script>
-        // Открытие/закрытие островка
-        function toggleIsland() {
-            const island = document.getElementById('island');
-            island.classList.toggle('active');
-        }
+    // Открытие/закрытие островка
+    function toggleIsland() {
+        const island = document.getElementById('island');
+        island.classList.toggle('active');
+    }
 
-        // Оптимизация под мобильные устройства (отключаем наклон на смартфонах)
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // Оптимизация под мобильные устройства (отключаем наклон на смартфонах)
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        if (!isMobile) {
-            VanillaTilt.init(document.querySelector(".container"), {
-                max: 6,
-                speed: 1000,
-                perspective: 1000,
-                glare: true,
-                "max-glare": 0.12
-            });
-        }
-    </script>
+    if (!isMobile) {
+        VanillaTilt.init(document.querySelector(".container"), {
+            max: 6,
+            speed: 1000,
+            perspective: 1000
+            // МЫ ПОЛНОСТЬЮ УБРАЛИ ОТСЮДА GLARE, ЧТОБЫ БЕЛЫЙ КВАДРАТ НЕ ПОЯВЛЯЛСЯ!
+        });
+    }
+</script>
 </body>
 </html>
