@@ -172,37 +172,35 @@ body, html {
     perspective: 1000px; /* Добавляем глубину для 3D наклона */
 }
 
-/* --- НОВЫЙ СОЧНЫЙ КОНТЕЙНЕР (Без багов рендеринга по краям) --- */
+/* --- ОСНОВНОЙ КОНТЕЙНЕР (Теперь без багов рендеринга) --- */
 .container {
     position: relative;
-    background: rgba(12, 8, 20, 0.4); /* Однородная база для красивого размытия */
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    
-    /* FIX 1: Избавляемся от дрожания и зубчатых краев при наклоне */
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    outline: 1px solid transparent; /* Трюк принудительного аппаратного сглаживания */
-    will-change: transform; /* Говорит видеокарте рендерить элемент отдельно */
-    
-    /* Тонкая рамка (Вынесена в border, убрана из сложного градиента для стабильности пикселей) */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 32px;
     padding: 50px 30px;
     width: 100%;
     max-width: 390px;
     text-align: center;
-    transform-style: preserve-3d; /* Позволяет внутренним элементам выходить в 3D */
+    border-radius: 32px;
     
-    /* FIX 2: Мягкие внешние тени без артефактов */
+    /* Включаем 3D-пространство для дочерних элементов (аватарки, кнопок) */
+    transform-style: preserve-3d; 
+    
+    /* Очищаем фон самого контейнера, чтобы он не конфликтовал с 3D */
+    background: transparent;
+    border: none;
+    
+    /* Аппаратное сглаживание */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    
+    /* Тень оставляем на самом контейнере */
     box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.7),
-        0 0 50px rgba(168, 85, 247, 0.08);
+        0 30px 60px rgba(0, 0, 0, 0.8),
+        0 0 50px rgba(168, 85, 247, 0.12);
         
     transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* FIX 3: Блик на верхней грани контейнера делаем через псевдоэлемент, чтобы избежать бага inset-тени */
+/* --- ВЫДЕЛЕННЫЙ ФОНОВЫЙ СЛОЙ (Стекло и Размытие здесь) --- */
 .container::before {
     content: '';
     position: absolute;
@@ -210,22 +208,44 @@ body, html {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 31px; /* Слегка меньше внешнего border-radius */
-    padding: 1px;
-    /* Мягкий плавный верхний блик */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), transparent 40%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    border-radius: 32px;
+    z-index: -1; /* Задний план внутри контейнера */
     pointer-events: none;
-    z-index: 5;
+    
+    /* Эффект матового стекла */
+    background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.03) 0%, 
+        rgba(168, 85, 247, 0.01) 50%, 
+        rgba(255, 255, 255, 0.01) 100%
+    ); 
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    
+    /* Рамка и блик */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    
+    /* --- СУПЕР-ФИКС ДЛЯ CHROMIUM / SAFARI --- */
+    /* Эта маска принудительно сглаживает углы и края при 3D-трансформациях */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    
+    /* Плоский рендеринг подложки, чтобы размытие не ломалось в 3D */
+    transform: translateZ(0);
 }
 
-/* Усиление подсветки при наведении */
+/* Эффект при наведении */
 .container:hover {
     box-shadow: 
-        0 40px 80px rgba(0, 0, 0, 0.85),
-        0 0 70px rgba(168, 85, 247, 0.18);
+        0 40px 80px rgba(0, 0, 0, 0.9),
+        0 0 70px rgba(168, 85, 247, 0.22);
+}
+
+/* Делаем рамку подложки ярче при наведении */
+.container:hover::before {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* --- Блок профиля --- */
