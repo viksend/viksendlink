@@ -160,6 +160,69 @@ body, html {
     }
 }
 
+
+/* Жесткое скрытие сгенерированного библиотекой Vanilla-Tilt блика, если он создается в HTML */
+.js-tilt-glare, 
+.js-tilt-glare-inner {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Наш основной контейнер — делаем его абсолютно чистым */
+.container {
+    position: relative;
+    padding: 50px 30px;
+    width: 100%;
+    max-width: 390px;
+    text-align: center;
+    border-radius: 32px;
+    
+    transform-style: preserve-3d; 
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    
+    /* overflow: hidden спасает от любых вылетающих за скругления элементов */
+    overflow: hidden; 
+    
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+    
+    transition: transform 0.1s ease;
+}
+
+/* Подложка (стекло) */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 32px;
+    z-index: -1;
+    pointer-events: none;
+    
+    background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(168, 85, 247, 0.01) 100%
+    ); 
+    
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: none;
+    
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    
+    transform: translateZ(0);
+}
+
 /* --- Главная обертка --- */
 .main-wrapper {
     position: relative;
