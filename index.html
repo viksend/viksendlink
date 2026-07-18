@@ -97,6 +97,34 @@
         </div>
     </div>
 
+    <!-- Контейнер сбора DonateX в стиле Liquid Glass -->
+<div class="donate-container">
+    <div class="donate-header">
+        <i class="fa-solid fa-trophy goal-icon"></i>
+        <h2>Текущие сборы</h2>
+    </div>
+    
+    <div class="goals-wrapper" id="goals-loading">
+        <div class="glass-loader">Загрузка актуальных данных...</div>
+    </div>
+
+    <!-- Сюда скрипт вставит данные (это шаблон, который сгенерируется динамически) -->
+    <div class="goals-list" id="goals-container" style="display: none;">
+        <table class="liquid-table">
+            <thead>
+                <tr>
+                    <th>Цель сбора</th>
+                    <th>Прогресс</th>
+                    <th>Собрано</th>
+                </tr>
+            </thead>
+            <tbody id="goals-tbody">
+                <!-- Строки таблицы вставятся из JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     
