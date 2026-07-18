@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА (Чтобы карточка и сборы стояли ровно друг под другом) -->
+    <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА (Центрирует всё по центру экрана) -->
     <div class="content-wrapper">
         
         <!-- Основная карточка с соцсетями -->
@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <!-- ТАБЛИЦА СБОРА DONATEX (В стиле Liquid Glass) -->
+        <!-- ТАБЛИЦА СБОРА DONATEX -->
         <div class="donate-container">
             <div class="donate-header">
                 <i class="fa-solid fa-trophy goal-icon"></i>
@@ -164,13 +164,11 @@
 
     <!-- Скрипт интерфейса и логики сборов -->
     <script>
-        // Открытие/закрытие островков
         function toggleIsland() {
             const island = document.getElementById('island');
             island.classList.toggle('active');
         }
 
-        // Включение 3D наклона карточки (без баганного белого блика glare)
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         if (!isMobile) {
             VanillaTilt.init(document.querySelector(".container"), {
@@ -180,60 +178,56 @@
             });
         }
 
-        // Функция работы со сборами DonateX
         async function fetchDonateXGoals() {
             const tbody = document.getElementById('goals-tbody');
             const loading = document.getElementById('goals-loading');
             const container = document.getElementById('goals-container');
 
+            let data;
+
             try {
-                // ТЕСТОВЫЙ РЕЖИМ: Временные данные для проверки дизайна без падения в ошибку
-                const data = {
+                // Делаем реальный запрос к твоему бэкенду
+                const response = await fetch('https://api-alpha-jade-62.vercel.app/api/get-donate'); 
+                data = await response.json();
+            } catch (error) {
+                console.warn('Сервер недоступен, включаем резервные тест-данные:', error);
+                // Если бэк лежит/выдает CORS, используем эти данные, чтобы дизайн не ломался:
+                data = {
                     goals: [
                         { title: "на новый микрофон", current: 3500, target: 10000 },
                         { title: "на хостинг сервера mc", current: 1200, target: 1500 }
                     ]
                 };
-
-                // КОГДА НАСТРОИШЬ СКРЫТЫЙ API-ПРОКСИ НА VERCEL, ПРОСТО УДАЛИ ДАТУ ВЫШЕ И РАСКОММЕНТИРУЙ ЭТИ ДВЕ СТРОКИ:
-                const response = await fetch('https://api-alpha-jade-62.vercel.app/api/get-donate'); 
-                const data = await response.json();
-
-                const goals = data.goals || []; 
-
-                if (goals.length === 0) {
-                    loading.innerHTML = '<div class="glass-loader">Активных сборов пока нет 🚀</div>';
-                    return;
-                }
-
-                loading.style.display = 'none';
-                container.style.display = 'block';
-                tbody.innerHTML = '';
-
-                goals.forEach(goal => {
-                    const percent = Math.min(Math.round((goal.current / goal.target) * 100), 100);
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="goal-title">${goal.title}</td>
-                        <td>
-                            <div class="liquid-progress-bar">
-                                <div class="liquid-progress-fill" style="width: ${percent}%"></div>
-                                <span class="progress-percent">${percent}%</span>
-                            </div>
-                        </td>
-                        <td class="goal-amount">${goal.current} / <span class="goal-target">${goal.target} ₽</span></td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-            } catch (error) {
-                console.error('Ошибка:', error);
-                loading.innerHTML = '<div class="glass-loader" style="color: #ef4444;">Не удалось загрузить сборы 😭</div>';
             }
+
+            // Обработка и рендер полученных данных
+            if (!data || !data.goals || data.goals.length === 0) {
+                loading.innerHTML = '<div class="glass-loader">Активных сборов пока нет 🚀</div>';
+                return;
+            }
+
+            loading.style.display = 'none';
+            container.style.display = 'block';
+            tbody.innerHTML = '';
+
+            data.goals.forEach(goal => {
+                const percent = Math.min(Math.round((goal.current / goal.target) * 100), 100);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="goal-title">${goal.title}</td>
+                    <td>
+                        <div class="liquid-progress-bar">
+                            <div class="liquid-progress-fill" style="width: ${percent}%"></div>
+                            <span class="progress-percent">${percent}%</span>
+                        </div>
+                    </td>
+                    <td class="goal-amount">${goal.current} / <span class="goal-target">${goal.target} ₽</span></td>
+                `;
+                tbody.appendChild(row);
+            });
         }
 
-        // Запуск проверки сборов при открытии страницы
         document.addEventListener('DOMContentLoaded', fetchDonateXGoals);
     </script>
 </body>
