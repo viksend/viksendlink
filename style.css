@@ -13,9 +13,9 @@ body, html {
     overflow-x: hidden;
     background-color: #030107; /* Ультра-глубокий космический черный */
     color: #f5f5f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 /* --- Слой частиц --- */
@@ -153,16 +153,17 @@ body, html {
     }
 }
 
-/* --- Главная обертка контента --- */
+/* --- ЖЕСТКИЙ ЦЕНТРОВОЙ КОНТЕЙНЕР --- */
 .content-wrapper {
     position: relative;
     z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 430px; /* Даем запас для внутренних отступов контейнеров */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 390px !important; /* Четкий размер по ширине карточки */
+    margin: 0 auto !important; /* Выравнивание по центру горизонтали */
     min-height: 100vh;
     padding: 80px 20px 40px 20px;
     gap: 30px; 
@@ -217,14 +218,6 @@ body, html {
     -webkit-mask-image: -webkit-radial-gradient(white, black);
     mask-image: radial-gradient(white, black);
     transform: translateZ(0);
-}
-
-.container:hover {
-    box-shadow: none;
-}
-.container:hover::before {
-    box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.04); 
 }
 
 /* --- Блок профиля --- */
