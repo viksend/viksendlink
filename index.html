@@ -13,6 +13,7 @@
 
     <div id="particles-js"></div>
 
+    <!-- Динамический островок -->
     <div class="dynamic-island" id="island" onclick="toggleIsland()">
         <div class="island-compact">
             <i class="fa-solid fa-briefcase"></i>
@@ -33,22 +34,21 @@
         </div>
     </div>
 
+    <!-- Главный контейнер-обертка -->
     <div class="main-wrapper">
+        
+        <!-- Основная карточка с соцсетями -->
         <div class="container">
-            
             <div class="profile-header">
                 <img src="avatar.png" alt="Avatar" class="avatar">
-                
                 <div class="nickname-container">
                     <h1>viksend</h1>
                     <img src="badge.gif" alt="Badge" class="chat-badge">
                 </div>
-                
                 <p class="bio">дароу • все соцсети xd</p>
             </div>
 
             <div class="links-list">
-                
                 <a href="https://telegram.me/wipixviksend" target="_blank" class="link-btn">
                     <span class="btn-content">
                         <i class="fab fa-telegram-plane"></i>
@@ -56,7 +56,6 @@
                     </span>
                     <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
                 </a>
-                
                 <a href="https://tiktok.com/@viksendidk" target="_blank" class="link-btn">
                     <span class="btn-content">
                         <i class="fab fa-tiktok"></i>
@@ -64,7 +63,6 @@
                     </span>
                     <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
                 </a>
-                
                 <a href="https://www.twitch.tv/viksend" target="_blank" class="link-btn">
                     <span class="btn-content">
                         <i class="fab fa-twitch"></i>
@@ -72,7 +70,6 @@
                     </span>
                     <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
                 </a>
-                
                 <a href="https://youtube.com/@viksend" target="_blank" class="link-btn">
                     <span class="btn-content">
                         <i class="fab fa-youtube"></i>
@@ -80,7 +77,6 @@
                     </span>
                     <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
                 </a>
-                
                 <a href="https://donatex.gg/donate/viksend" target="_blank" class="link-btn donate">
                     <span class="btn-content">
                         <i class="fa-solid fa-wallet"></i>
@@ -88,165 +84,132 @@
                     </span>
                     <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
                 </a>
-
             </div>
 
             <div class="footer">
                 <p>© 2026 • silence</p>
             </div>
         </div>
-    </div>
 
-    <!-- Контейнер сбора DonateX в стиле Liquid Glass -->
-<div class="donate-container">
-    <div class="donate-header">
-        <i class="fa-solid fa-trophy goal-icon"></i>
-        <h2>Текущие сборы</h2>
-    </div>
-    
-    <div class="goals-wrapper" id="goals-loading">
-        <div class="glass-loader">Загрузка актуальных данных...</div>
-    </div>
+        <!-- ТЕПЕРЬ ТАБЛИЦА СБОРА СТОИТ ТУТ (Внутри main-wrapper, появится рядом/под карточкой) -->
+        <div class="donate-container">
+            <div class="donate-header">
+                <i class="fa-solid fa-trophy goal-icon"></i>
+                <h2>Текущие сборы</h2>
+            </div>
+            
+            <div class="goals-wrapper" id="goals-loading">
+                <div class="glass-loader">Загрузка актуальных данных...</div>
+            </div>
 
-    <!-- Сюда скрипт вставит данные (это шаблон, который сгенерируется динамически) -->
-    <div class="goals-list" id="goals-container" style="display: none;">
-        <table class="liquid-table">
-            <thead>
-                <tr>
-                    <th>Цель сбора</th>
-                    <th>Прогресс</th>
-                    <th>Собрано</th>
-                </tr>
-            </thead>
-            <tbody id="goals-tbody">
-                <!-- Строки таблицы вставятся из JS -->
-            </tbody>
-        </table>
-    </div>
-</div>
+            <div class="goals-list" id="goals-container" style="display: none;">
+                <table class="liquid-table">
+                    <thead>
+                        <tr>
+                            <th>Цель сбора</th>
+                            <th>Прогресс</th>
+                            <th>Собрано</th>
+                        </tr>
+                    </thead>
+                    <tbody id="goals-tbody">
+                        <!-- Строки таблицы вставятся из JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
+    </div> <!-- Конец main-wrapper -->
+
+    <!-- Скрипты -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     
+    <!-- Инициализация частиц -->
     <script>
         particlesJS("particles-js", {
             "particles": {
-                "number": { 
-                    "value": 65, 
-                    "density": { "enable": true, "value_area": 800 } 
-                },
+                "number": { "value": 65, "density": { "enable": true, "value_area": 800 } },
                 "color": { "value": "#a855f7" }, 
                 "shape": { "type": "circle" },
-                "opacity": { 
-                    "value": 0.4, 
-                    "random": true, 
-                    "anim": { "enable": true, "speed": 0.6, "opacity_min": 0.15, "sync": false } 
-                },
-                "size": { 
-                    "value": 4, 
-                    "random": true, 
-                    "anim": { "enable": true, "speed": 1.2, "size_min": 1, "sync": false } 
-                },
-                "line_linked": { 
-                    "enable": true, 
-                    "distance": 130, 
-                    "color": "#a855f7", 
-                    "opacity": 0.15, 
-                    "width": 1 
-                },
-                "move": { 
-                    "enable": true, 
-                    "speed": 0.9, 
-                    "direction": "none", 
-                    "random": true, 
-                    "straight": false, 
-                    "out_mode": "out", 
-                    "bounce": false 
-                }
+                "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 0.6, "opacity_min": 0.15, "sync": false } },
+                "size": { "value": 4, "random": true, "anim": { "enable": true, "speed": 1.2, "size_min": 1, "sync": false } },
+                "line_linked": { "enable": true, "distance": 130, "color": "#a855f7", "opacity": 0.15, "width": 1 },
+                "move": { "enable": true, "speed": 0.9, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
             },
             "interactivity": {
                 "detect_on": "window", 
-                "events": { 
-                    "onhover": { "enable": true, "mode": "repulse" }, 
-                    "onclick": { "enable": true, "mode": "push" }, 
-                    "resize": true 
-                },
-                "modes": { 
-                    "repulse": { "distance": 120, "duration": 0.4 },
-                    "push": { "particles_nb": 4 }
-                }
+                "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "repulse": { "distance": 120, "duration": 0.4 }, "push": { "particles_nb": 4 } }
             },
             "retina_detect": true
         });
     </script>
 
+    <!-- Инициализация логики интерфейса -->
     <script>
-    // Открытие/закрытие островка
-    function toggleIsland() {
-        const island = document.getElementById('island');
-        island.classList.toggle('active');
-    }
-
-    // Оптимизация под мобильные устройства (отключаем наклон на смартфонах)
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (!isMobile) {
-        VanillaTilt.init(document.querySelector(".container"), {
-            max: 6,
-            speed: 1000,
-            perspective: 1000
-            // МЫ ПОЛНОСТЬЮ УБРАЛИ ОТСЮДА GLARE, ЧТОБЫ БЕЛЫЙ КВАДРАТ НЕ ПОЯВЛЯЛСЯ!
-       // Функция загрузки данных сборов
-async function fetchDonateXGoals() {
-    const tbody = document.getElementById('goals-tbody');
-    const loading = document.getElementById('goals-loading');
-    const container = document.getElementById('goals-container');
-
-    try {
-        // Заменяешь на URL своей развернутой функции Vercel/Cloudflare
-        const response = await fetch('https://твой-проект.vercel.app/api/get-donate'); 
-        const data = await response.json();
-
-        // Предположим, API DonateX возвращает массив сборов в data.goals
-        // Если структура другая, поправь под их документацию
-        const goals = data.goals || []; 
-
-        if (goals.length === 0) {
-            loading.innerHTML = '<div class="glass-loader">Активных сборов пока нет 🚀</div>';
-            return;
+        // Открытие/закрытие островка
+        function toggleIsland() {
+            const island = document.getElementById('island');
+            island.classList.toggle('active');
         }
 
-        loading.style.display = 'none';
-        container.style.display = 'block';
-        tbody.innerHTML = '';
+        // 3D наклон карточки (без баганного блика glare)
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (!isMobile) {
+            VanillaTilt.init(document.querySelector(".container"), {
+                max: 6,
+                speed: 1000,
+                perspective: 1000
+            });
+        }
 
-        goals.forEach(goal => {
-            const percent = Math.min(Math.round((goal.current / goal.target) * 100), 100);
-            
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="goal-title">${goal.title}</td>
-                <td>
-                    <div class="liquid-progress-bar">
-                        <div class="liquid-progress-fill" style="width: ${percent}%"></div>
-                        <span class="progress-percent">${percent}%</span>
-                    </div>
-                </td>
-                <td class="goal-amount">${goal.current} / <span class="goal-target">${goal.target} ₽</span></td>
-            `;
-            tbody.appendChild(row);
-        });
+        // Функция загрузки данных сборов (ТЕПЕРЬ НА СВОЕМ МЕСТЕ!)
+        async function fetchDonateXGoals() {
+            const tbody = document.getElementById('goals-tbody');
+            const loading = document.getElementById('goals-loading');
+            const container = document.getElementById('goals-container');
 
-    } catch (error) {
-        console.error('Ошибка:', error);
-        loading.innerHTML = '<div class="glass-loader" style="color: #ef4444;">Не удалось загрузить сборы 😭</div>';
-    }
-}
+            try {
+                // Сюда вставишь ссылку на защищенный прокси бэкенд (Vercel/Cloudflare)
+                const response = await fetch('https://твой-проект.vercel.app/api/get-donate'); 
+                const data = await response.json();
 
-// Запускаем при загрузке страницы
-document.addEventListener('DOMContentLoaded', fetchDonateXGoals);
-        });
-    }
-</script>
+                const goals = data.goals || []; 
+
+                if (goals.length === 0) {
+                    loading.innerHTML = '<div class="glass-loader">Активных сборов пока нет 🚀</div>';
+                    return;
+                }
+
+                loading.style.display = 'none';
+                container.style.display = 'block';
+                tbody.innerHTML = '';
+
+                goals.forEach(goal => {
+                    const percent = Math.min(Math.round((goal.current / goal.target) * 100), 100);
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="goal-title">${goal.title}</td>
+                        <td>
+                            <div class="liquid-progress-bar">
+                                <div class="liquid-progress-fill" style="width: ${percent}%"></div>
+                                <span class="progress-percent">${percent}%</span>
+                            </div>
+                        </td>
+                        <td class="goal-amount">${goal.current} / <span class="goal-target">${goal.target} ₽</span></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error('Ошибка:', error);
+                loading.innerHTML = '<div class="glass-loader" style="color: #ef4444;">Не удалось загрузить сборы 😭</div>';
+            }
+        }
+
+        // Запуск загрузки
+        document.addEventListener('DOMContentLoaded', fetchDonateXGoals);
+    </script>
 </body>
 </html>
