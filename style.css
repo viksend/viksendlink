@@ -9,9 +9,13 @@
 
 body, html {
     height: 100%;
+    width: 100%;
     overflow-x: hidden;
     background-color: #030107; /* Ультра-глубокий космический черный */
     color: #f5f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* --- Слой частиц --- */
@@ -24,16 +28,14 @@ body, html {
     z-index: 1;
 }
 
-
 /* --- ДИНАМИЧЕСКИЙ ОСТРОВОК (Apple Dynamic Island) --- */
 .dynamic-island {
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100; /* Поверх всего на свете */
+    z-index: 100;
     
-    /* Начальный (схлопнутый) размер */
     width: 190px;
     height: 40px;
     padding: 0 16px;
@@ -46,8 +48,6 @@ body, html {
     overflow: hidden;
     cursor: pointer;
     user-select: none;
-    
-    /* Ультра-плавная эппловская анимация изменения размеров */
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15);
     
     box-shadow: 
@@ -55,7 +55,6 @@ body, html {
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Эффект легкого подсвечивания при наведении */
 .dynamic-island:hover {
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(168, 85, 247, 0.3);
@@ -64,12 +63,11 @@ body, html {
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Компактный вид (внутри островка) */
 .island-compact {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 38px; /* Центрирование по высоте базового островка */
+    height: 38px;
     font-size: 0.82rem;
     font-weight: 500;
     color: #e2dbe9;
@@ -82,7 +80,6 @@ body, html {
     transition: transform 0.4s ease;
 }
 
-/* Скрытый контент с контактами */
 .island-content {
     opacity: 0;
     visibility: hidden;
@@ -123,45 +120,55 @@ body, html {
     text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
 }
 
-/* --- СОСТОЯНИЕ РАЗВЕРНУТОГО ОСТРОВКА (При клике) --- */
 .dynamic-island.active {
-    width: 320px; /* Расширяется */
-    height: 125px; /* Увеличивается вниз */
+    width: 320px;
+    height: 125px;
     padding: 0 22px;
     border-radius: 24px;
-    background: rgba(15, 10, 25, 0.6); /* Становится чуть плотнее, чтобы текст читался */
+    background: rgba(15, 10, 25, 0.6);
     border-color: rgba(168, 85, 247, 0.4);
     box-shadow: 
         0 20px 50px rgba(0, 0, 0, 0.8),
         0 0 40px rgba(168, 85, 247, 0.15);
 }
 
-/* Показываем контакты при активации */
 .dynamic-island.active .island-content {
     opacity: 1;
     visibility: visible;
-    transition-delay: 0.15s; /* Появляются чуть позже, пока идет анимация изменения формы */
+    transition-delay: 0.15s;
 }
 
-/* Переворачиваем стрелочку при развертывании */
 .dynamic-island.active .island-arrow {
     transform: rotate(180deg);
     color: #c084fc;
 }
 
-/* Мобильная адаптация для островка */
 @media (max-width: 480px) {
     .dynamic-island {
         top: 15px;
     }
     .dynamic-island.active {
-        width: calc(100% - 30px); /* Чтобы на мобилках не вылезал за края экрана */
+        width: calc(100% - 30px);
         max-width: 360px;
     }
 }
 
+/* --- Главная обертка контента --- */
+.content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 430px; /* Даем запас для внутренних отступов контейнеров */
+    min-height: 100vh;
+    padding: 80px 20px 40px 20px;
+    gap: 30px; 
+}
 
-/* Жесткое скрытие сгенерированного библиотекой Vanilla-Tilt блика, если он создается в HTML */
+/* Жесткое скрытие стандартного блика Vanilla-Tilt */
 .js-tilt-glare, 
 .js-tilt-glare-inner {
     display: none !important;
@@ -169,31 +176,25 @@ body, html {
     visibility: hidden !important;
 }
 
-/* Наш основной контейнер — делаем его абсолютно чистым */
+/* --- ОСНОВНОЙ КОНТЕЙНЕР (Карточка) --- */
 .container {
     position: relative;
     padding: 50px 30px;
     width: 100%;
-    max-width: 390px;
     text-align: center;
     border-radius: 32px;
-    
     transform-style: preserve-3d; 
     background: transparent;
     border: none;
     box-shadow: none;
-    
-    /* overflow: hidden спасает от любых вылетающих за скругления элементов */
     overflow: hidden; 
-    
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     will-change: transform;
-    
     transition: transform 0.1s ease;
 }
 
-/* Подложка (стекло) */
+/* Подложка (стекло карточки) */
 .container::before {
     content: '';
     position: absolute;
@@ -204,113 +205,32 @@ body, html {
     border-radius: 32px;
     z-index: -1;
     pointer-events: none;
-    
-    background: linear-gradient(
-        135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(168, 85, 247, 0.01) 100%
-    ); 
-    
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: none;
-    
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-    mask-image: radial-gradient(white, black);
-    
-    transform: translateZ(0);
-}
-
-/* --- Главная обертка --- */
-.main-wrapper {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 40px 20px;
-    perspective: 1000px; /* Добавляем глубину для 3D наклона */
-}
-
-/* --- ОСНОВНОЙ КОНТЕЙНЕР (Чистый каркас для 3D наклона) --- */
-.container {
-    position: relative;
-    padding: 50px 30px;
-    width: 100%;
-    max-width: 390px;
-    text-align: center;
-    border-radius: 32px;
-    
-    /* Оставляем 3D пространство для аватарки и кнопок внутри */
-    transform-style: preserve-3d; 
-    
-    /* Полностью убираем фон, рамки и тени, которые давали баги по краям */
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    
-    /* Аппаратное сглаживание */
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform;
-    
-    transition: transform 0.1s ease;
-}
-
-/* --- ПОДЛОЖКА (Идеальное матовое стекло Apple без бликов и теней) --- */
-.container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 32px;
-    z-index: -1;
-    pointer-events: none;
-    
-    /* Увеличили матовость (с 0.03 до 0.06), чтобы стекло было более выраженным */
     background: linear-gradient(
         135deg, 
         rgba(255, 255, 255, 0.06) 0%, 
         rgba(168, 85, 247, 0.02) 100%
     ); 
-    
-    /* Мощное размытие заднего плана (настоящий матовый эффект) */
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    
-    /* Минималистичная, еле заметная полупрозрачная рамка */
     border: 1px solid rgba(255, 255, 255, 0.04);
-    
-    /* Полностью убрали inset тени и внешние свечения, вызывавшие артефакты */
     box-shadow: none;
-    
-    /* Жесткое аппаратное сглаживание углов маской */
     -webkit-mask-image: -webkit-radial-gradient(white, black);
     mask-image: radial-gradient(white, black);
-    
-    /* Удерживаем подложку в плоском слое, чтобы размытие не ломалось при наклонах каркаса */
     transform: translateZ(0);
 }
 
-/* При наведении карточка просто аккуратно наклоняется в 3D, без изменения свечений */
 .container:hover {
     box-shadow: none;
 }
 .container:hover::before {
     box-shadow: none;
-    /* Оставляем рамку спокойной, чтобы пиксели не прыгали */
     border-color: rgba(255, 255, 255, 0.04); 
 }
 
 /* --- Блок профиля --- */
 .profile-header {
     margin-bottom: 40px;
-    transform: translateZ(35px); /* Выталкиваем аватарку и ник вперед в 3D */
+    transform: translateZ(35px);
 }
 
 .avatar {
@@ -322,8 +242,6 @@ body, html {
     box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
     margin-bottom: 24px;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    
-    /* Сглаживание при 3D-вращении */
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
 }
@@ -345,11 +263,21 @@ body, html {
 .nickname-container h1 {
     font-size: 1.7rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+    text-transform: lowercase;
+    background: linear-gradient(
+        120deg, 
+        #ffffff 0%, 
+        #ffffff 30%, 
+        #a855f7 50%, 
+        #ffffff 70%, 
+        #ffffff 100%
+    );
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
-    text-transform: lowercase;
+    background-clip: text;
+    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.3)); 
+    animation: glow-shift 4s linear infinite;
 }
 
 .chat-badge {
@@ -370,7 +298,7 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    transform: translateZ(20px); /* Кнопки тоже слегка приподняты над стеклом */
+    transform: translateZ(20px);
 }
 
 .link-btn {
@@ -388,8 +316,6 @@ body, html {
     font-weight: 500;
     overflow: hidden;
     transition: all 0.5s cubic-bezier(0.15, 0.85, 0.3, 1);
-    
-    /* Сглаживание краев кнопок при наклонах родителя */
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
 }
@@ -414,7 +340,6 @@ body, html {
     transition: all 0.5s cubic-bezier(0.15, 0.85, 0.3, 1);
 }
 
-/* Эффект жидкого светового блика */
 .link-btn::after {
     content: '';
     position: absolute;
@@ -434,7 +359,6 @@ body, html {
     z-index: 1;
 }
 
-/* --- Свечение при наведении на кнопку --- */
 .link-btn:hover {
     background: rgba(168, 85, 247, 0.05);
     border-color: rgba(168, 85, 247, 0.5);
@@ -460,7 +384,6 @@ body, html {
     transform: translate(3px, -3px) scale(1.1);
 }
 
-/* Особый стиль кнопки доната */
 .link-btn.donate {
     background: rgba(168, 85, 247, 0.04);
     border-color: rgba(168, 85, 247, 0.18);
@@ -473,10 +396,14 @@ body, html {
         inset 0 0 20px rgba(168, 85, 247, 0.2);
 }
 
-/* --- Анимация блика --- */
 @keyframes apple-shimmer {
     0% { left: -150%; }
     100% { left: 150%; }
+}
+
+@keyframes glow-shift {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
 }
 
 /* --- Футер --- */
@@ -485,65 +412,20 @@ body, html {
     font-size: 0.72rem;
     color: #494156;
     text-transform: lowercase;
-    transform: translateZ(15px);
 }
 
-
-/* --- Анимированный градиент для никнейма (Style 7TV) --- */
-h1 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    text-transform: lowercase;
-    margin-bottom: 6px;
-    
-    /* Создаем длинный градиент: Белый -> Фиолетовый -> Белый */
-    background: linear-gradient(
-        120deg, 
-        #ffffff 0%, 
-        #ffffff 30%, 
-        #a855f7 50%, 
-        #ffffff 70%, 
-        #ffffff 100%
-    );
-    background-size: 200% auto; /* Растягиваем фон, чтобы его можно было двигать */
-    
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    
-    /* Мягкое неоновое свечение букв */
-    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.3)); 
-    
-    /* Запуск бесконечной плавной анимации перелива */
-    animation: glow-shift 4s linear infinite;
-}
-
-/* Анимация движения градиента */
-@keyframes glow-shift {
-    0% {
-        background-position: 200% center;
-    }
-    100% {
-        background-position: -200% center;
-    }
-}
 /* --- СТИЛИ ТАБЛИЦЫ DONATEX (Liquid Glass) --- */
 .donate-container {
     position: relative;
-    margin-top: 30px;
     padding: 30px 25px;
     width: 100%;
-    max-width: 390px;
     border-radius: 28px;
     background: rgba(12, 8, 20, 0.35);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 255, 255, 0.04);
-    
-    /* Идеальное сглаживание */
     -webkit-mask-image: -webkit-radial-gradient(white, black);
     mask-image: radial-gradient(white, black);
-    
     box-shadow: 
         0 25px 50px rgba(0, 0, 0, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -579,11 +461,10 @@ h1 {
     text-align: center;
 }
 
-/* Стили самой интерактивной таблицы */
 .liquid-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px; /* Отступы между строками для эффекта парения */
+    border-spacing: 0 10px; 
     text-align: left;
 }
 
@@ -606,7 +487,6 @@ h1 {
     transition: all 0.3s ease;
 }
 
-/* Закругляем углы для каждой строчки отдельно */
 .liquid-table td:first-child {
     border-left: 1px solid rgba(255, 255, 255, 0.02);
     border-radius: 14px 0 0 14px;
@@ -617,7 +497,6 @@ h1 {
     text-align: right;
 }
 
-/* Подсветка строки при наведении */
 .liquid-table tr:hover td {
     background: rgba(168, 85, 247, 0.04);
     border-color: rgba(168, 85, 247, 0.2);
@@ -640,7 +519,6 @@ h1 {
     color: #a855f7;
 }
 
-/* --- ЖИДКИЙ ПРОГРЕСС-БАР --- */
 .liquid-progress-bar {
     position: relative;
     width: 100px;
@@ -674,32 +552,19 @@ h1 {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
-/* Адаптив под мобилки */
 @media (max-width: 480px) {
+    .content-wrapper {
+        padding-top: 70px;
+    }
     .donate-container {
         padding: 22px 15px;
-        margin-top: 20px;
         border-radius: 24px;
     }
-    
     .liquid-progress-bar {
         width: 80px;
     }
-    
     .liquid-table td {
         padding: 12px 6px;
         font-size: 0.8rem;
     }
-}
-/* Новая обертка для выравнивания контента по вертикали */
-.content-wrapper {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 60px 20px;
-    gap: 35px; /* Мягкий отступ между элементами */
 }
