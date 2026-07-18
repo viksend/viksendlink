@@ -196,8 +196,8 @@
                 };
 
                 // КОГДА НАСТРОИШЬ СКРЫТЫЙ API-ПРОКСИ НА VERCEL, ПРОСТО УДАЛИ ДАТУ ВЫШЕ И РАСКОММЕНТИРУЙ ЭТИ ДВЕ СТРОКИ:
-                // const response = await fetch('https://твой-проект.vercel.app/api/get-donate'); 
-                // const data = await response.json();
+                const response = await fetch('https://api-alpha-jade-62.vercel.app/api/get-donate'); 
+                const data = await response.json();
 
                 const goals = data.goals || []; 
 
