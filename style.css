@@ -527,3 +527,167 @@ h1 {
         background-position: -200% center;
     }
 }
+/* --- СТИЛИ ТАБЛИЦЫ DONATEX (Liquid Glass) --- */
+.donate-container {
+    position: relative;
+    margin-top: 30px;
+    padding: 30px 25px;
+    width: 100%;
+    max-width: 390px;
+    border-radius: 28px;
+    background: rgba(12, 8, 20, 0.35);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    
+    /* Идеальное сглаживание */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.donate-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.donate-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 60%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.goal-icon {
+    font-size: 1.2rem;
+    color: #a855f7;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+}
+
+.glass-loader {
+    font-size: 0.88rem;
+    color: #8c829d;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* Стили самой интерактивной таблицы */
+.liquid-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Отступы между строками для эффекта парения */
+    text-align: left;
+}
+
+.liquid-table th {
+    padding: 0 10px 5px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #494156;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.liquid-table td {
+    padding: 14px 10px;
+    font-size: 0.88rem;
+    vertical-align: middle;
+    background: rgba(255, 255, 255, 0.01);
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
+}
+
+/* Закругляем углы для каждой строчки отдельно */
+.liquid-table td:first-child {
+    border-left: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 14px 0 0 14px;
+}
+.liquid-table td:last-child {
+    border-right: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 0 14px 14px 0;
+    text-align: right;
+}
+
+/* Подсветка строки при наведении */
+.liquid-table tr:hover td {
+    background: rgba(168, 85, 247, 0.04);
+    border-color: rgba(168, 85, 247, 0.2);
+    color: #ffffff;
+}
+
+.goal-title {
+    font-weight: 500;
+    color: #e2dbe9;
+}
+
+.goal-amount {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.goal-target {
+    color: #a855f7;
+}
+
+/* --- ЖИДКИЙ ПРОГРЕСС-БАР --- */
+.liquid-progress-bar {
+    position: relative;
+    width: 100px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.liquid-progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #a855f7, #c084fc);
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-percent {
+    position: relative;
+    z-index: 2;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Адаптив под мобилки */
+@media (max-width: 480px) {
+    .donate-container {
+        padding: 22px 15px;
+        margin-top: 20px;
+        border-radius: 24px;
+    }
+    
+    .liquid-progress-bar {
+        width: 80px;
+    }
+    
+    .liquid-table td {
+        padding: 12px 6px;
+        font-size: 0.8rem;
+    }
+}
