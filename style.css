@@ -691,3 +691,15 @@ h1 {
         font-size: 0.8rem;
     }
 }
+/* Новая обертка для выравнивания контента по вертикали */
+.content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 60px 20px;
+    gap: 35px; /* Мягкий отступ между элементами */
+}
