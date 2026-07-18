@@ -196,6 +196,55 @@
             speed: 1000,
             perspective: 1000
             // МЫ ПОЛНОСТЬЮ УБРАЛИ ОТСЮДА GLARE, ЧТОБЫ БЕЛЫЙ КВАДРАТ НЕ ПОЯВЛЯЛСЯ!
+       // Функция загрузки данных сборов
+async function fetchDonateXGoals() {
+    const tbody = document.getElementById('goals-tbody');
+    const loading = document.getElementById('goals-loading');
+    const container = document.getElementById('goals-container');
+
+    try {
+        // Заменяешь на URL своей развернутой функции Vercel/Cloudflare
+        const response = await fetch('https://твой-проект.vercel.app/api/get-donate'); 
+        const data = await response.json();
+
+        // Предположим, API DonateX возвращает массив сборов в data.goals
+        // Если структура другая, поправь под их документацию
+        const goals = data.goals || []; 
+
+        if (goals.length === 0) {
+            loading.innerHTML = '<div class="glass-loader">Активных сборов пока нет 🚀</div>';
+            return;
+        }
+
+        loading.style.display = 'none';
+        container.style.display = 'block';
+        tbody.innerHTML = '';
+
+        goals.forEach(goal => {
+            const percent = Math.min(Math.round((goal.current / goal.target) * 100), 100);
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="goal-title">${goal.title}</td>
+                <td>
+                    <div class="liquid-progress-bar">
+                        <div class="liquid-progress-fill" style="width: ${percent}%"></div>
+                        <span class="progress-percent">${percent}%</span>
+                    </div>
+                </td>
+                <td class="goal-amount">${goal.current} / <span class="goal-target">${goal.target} ₽</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error('Ошибка:', error);
+        loading.innerHTML = '<div class="glass-loader" style="color: #ef4444;">Не удалось загрузить сборы 😭</div>';
+    }
+}
+
+// Запускаем при загрузке страницы
+document.addEventListener('DOMContentLoaded', fetchDonateXGoals);
         });
     }
 </script>
