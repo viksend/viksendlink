@@ -162,73 +162,76 @@
         });
     </script>
 
-    <!-- Скрипт интерфейса и логики сборов -->
-    <script>
-        function toggleIsland() {
-            const island = document.getElementById('island');
-            island.classList.toggle('active');
+<!-- Скрипт интерфейса и логики сборов -->
+<script>
+    function toggleIsland() {
+        const island = document.getElementById('island');
+        island.classList.toggle('active');
+    }
+
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (!isMobile) {
+        VanillaTilt.init(document.querySelector(".container"), {
+            max: 6,
+            speed: 1000,
+            perspective: 1000
+        });
+    }
+
+    // =========================================================================
+    // ⚙️ НАСТРОЙКА СБОРОВ (МЕНЯЙ ТОЛЬКО ЭТОТ МАССИВ):
+    // =========================================================================
+    const MY_GOALS = [
+        { 
+            title: "на матеренку и процык",  // Название сбора
+            current: 1500,              // Сколько сейчас собрано (в ₽)
+            target: 20000               // Сколько всего нужно собрать (в ₽)
+        }
+        // Чтобы добавить 3-й сбор, просто раскомментируй (убери //) строки ниже:
+        // ,{ 
+        //     title: "на видеокарту", 
+        //     current: 15000, 
+        //     target: 60000 
+        // }
+    ];
+    // =========================================================================
+
+    function renderGoals() {
+        const tbody = document.getElementById('goals-tbody');
+        const loading = document.getElementById('goals-loading');
+        const container = document.getElementById('goals-container');
+
+        if (!MY_GOALS || MY_GOALS.length === 0) {
+            loading.innerText = 'Сборов пока нет';
+            return;
         }
 
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        if (!isMobile) {
-            VanillaTilt.init(document.querySelector(".container"), {
-                max: 6,
-                speed: 1000,
-                perspective: 1000
-            });
-        }
+        loading.style.display = 'none';
+        container.style.display = 'block';
+        tbody.innerHTML = '';
 
-        async function fetchDonateXGoals() {
-            const tbody = document.getElementById('goals-tbody');
-            const loading = document.getElementById('goals-loading');
-            const container = document.getElementById('goals-container');
+        MY_GOALS.forEach(goal => {
+            // Вычисляем процент от 0% до 100%
+            const percent = goal.target > 0 
+                ? Math.min(Math.round((goal.current / goal.target) * 100), 100) 
+                : 0;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="goal-title">${goal.title}</td>
+                <td>
+                    <div class="liquid-progress-bar">
+                        <div class="liquid-progress-fill" style="width: ${percent}%"></div>
+                        <span class="progress-percent">${percent}%</span>
+                    </div>
+                </td>
+                <td class="goal-amount">${goal.current.toLocaleString('ru-RU')} / <span class="goal-target">${goal.target.toLocaleString('ru-RU')} ₽</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
 
-            let goalsData = null;
-
-            // Попытка получить данные с бэкенда
-            try {
-                const response = await fetch('https://api-alpha-jade-62.vercel.app/api/get-donate'); 
-                if (response.ok) {
-                    const resJson = await response.json();
-                    if (resJson && resJson.goals) {
-                        goalsData = resJson.goals;
-                    }
-                }
-            } catch (error) {
-                console.warn("Фронтенд переключился на резервные данные:", error);
-            }
-
-            // Если бэк ничего не вернул, используем красивую локальную заглушку
-            if (!goalsData || goalsData.length === 0) {
-                goalsData = [
-                    { title: "на новый микрофон", current: 3500, target: 10000 },
-                    { title: "на хостинг сервера mc", current: 1200, target: 1500 }
-                ];
-            }
-
-            loading.style.display = 'none';
-            container.style.display = 'block';
-            tbody.innerHTML = '';
-
-            goalsData.forEach(goal => {
-                const percent = Math.min(Math.round((goal.current / goal.target) * 100), 100);
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="goal-title">${goal.title}</td>
-                    <td>
-                        <div class="liquid-progress-bar">
-                            <div class="liquid-progress-fill" style="width: ${percent}%"></div>
-                            <span class="progress-percent">${percent}%</span>
-                        </div>
-                    </td>
-                    <td class="goal-amount">${goal.current} / <span class="goal-target">${goal.target} ₽</span></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', fetchDonateXGoals);
-    </script>
+    document.addEventListener('DOMContentLoaded', renderGoals);
+</script>
 </body>
 </html>
