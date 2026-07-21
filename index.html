@@ -14,29 +14,29 @@
     <!-- Слой частиц на заднем фоне -->
     <div id="particles-js"></div>
 
-    <!-- Динамический островок (Apple Dynamic Island) -->
-    <div class="dynamic-island" id="island" onclick="toggleIsland()">
-        <div class="island-compact">
-            <i class="fa-solid fa-briefcase"></i>
-            <span>сотрудничество</span>
-            <i class="fa-solid fa-chevron-down island-arrow"></i>
-        </div>
-        <div class="island-content">
-            <div class="contact-item">
-                <i class="fab fa-telegram-plane"></i>
-                <span>telegram:</span>
-                <a href="https://telegram.me/viksend" target="_blank" onclick="event.stopPropagation();">@viksend</a>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-envelope"></i>
-                <span>почта:</span>
-                <a href="mailto:bussywepex@gmail.com" onclick="event.stopPropagation();">bussywepex@gmail.com</a>
-            </div>
-        </div>
-    </div>
-
     <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА (Жесткое выравнивание) -->
     <div class="content-wrapper">
+
+        <!-- Плашка Сотрудничество (Островок) -->
+        <div class="dynamic-island" id="island" onclick="toggleIsland()">
+            <div class="island-compact">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>сотрудничество</span>
+                <i class="fa-solid fa-chevron-down island-arrow"></i>
+            </div>
+            <div class="island-content">
+                <div class="contact-item">
+                    <i class="fab fa-telegram-plane"></i>
+                    <span>telegram:</span>
+                    <a href="https://telegram.me/viksend" target="_blank" onclick="event.stopPropagation();">@viksend</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>почта:</span>
+                    <a href="mailto:bussywepex@gmail.com" onclick="event.stopPropagation();">bussywepex@gmail.com</a>
+                </div>
+            </div>
+        </div>
         
         <!-- Основная карточка с соцсетями -->
         <div class="container">
@@ -162,76 +162,69 @@
         });
     </script>
 
-<!-- Скрипт интерфейса и логики сборов -->
-<script>
-    function toggleIsland() {
-        const island = document.getElementById('island');
-        island.classList.toggle('active');
-    }
-
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (!isMobile) {
-        VanillaTilt.init(document.querySelector(".container"), {
-            max: 6,
-            speed: 1000,
-            perspective: 1000
-        });
-    }
-
-    // =========================================================================
-    // ⚙️ НАСТРОЙКА СБОРОВ (МЕНЯЙ ТОЛЬКО ЭТОТ МАССИВ):
-    // =========================================================================
-    const MY_GOALS = [
-        { 
-            title: "на матеренку и процык",  // Название сбора
-            current: 1500,              // Сколько сейчас собрано (в ₽)
-            target: 20000               // Сколько всего нужно собрать (в ₽)
-        }
-        // Чтобы добавить 3-й сбор, просто раскомментируй (убери //) строки ниже:
-        // ,{ 
-        //     title: "на видеокарту", 
-        //     current: 15000, 
-        //     target: 60000 
-        // }
-    ];
-    // =========================================================================
-
-    function renderGoals() {
-        const tbody = document.getElementById('goals-tbody');
-        const loading = document.getElementById('goals-loading');
-        const container = document.getElementById('goals-container');
-
-        if (!MY_GOALS || MY_GOALS.length === 0) {
-            loading.innerText = 'Сборов пока нет';
-            return;
+    <!-- Скрипт интерфейса и логики сборов -->
+    <script>
+        function toggleIsland() {
+            const island = document.getElementById('island');
+            island.classList.toggle('active');
         }
 
-        loading.style.display = 'none';
-        container.style.display = 'block';
-        tbody.innerHTML = '';
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (!isMobile) {
+            VanillaTilt.init(document.querySelector(".container"), {
+                max: 6,
+                speed: 1000,
+                perspective: 1000
+            });
+        }
 
-        MY_GOALS.forEach(goal => {
-            // Вычисляем процент от 0% до 100%
-            const percent = goal.target > 0 
-                ? Math.min(Math.round((goal.current / goal.target) * 100), 100) 
-                : 0;
-            
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="goal-title">${goal.title}</td>
-                <td>
-                    <div class="liquid-progress-bar">
-                        <div class="liquid-progress-fill" style="width: ${percent}%"></div>
-                        <span class="progress-percent">${percent}%</span>
-                    </div>
-                </td>
-                <td class="goal-amount">${goal.current.toLocaleString('ru-RU')} / <span class="goal-target">${goal.target.toLocaleString('ru-RU')} ₽</span></td>
-            `;
-            tbody.appendChild(row);
-        });
-    }
+        // =========================================================================
+        // ⚙️ НАСТРОЙКА СБОРОВ:
+        // =========================================================================
+        const MY_GOALS = [
+            { 
+                title: "на матеренку и процык", 
+                current: 1500,              
+                target: 20000               
+            }
+        ];
+        // =========================================================================
 
-    document.addEventListener('DOMContentLoaded', renderGoals);
-</script>
+        function renderGoals() {
+            const tbody = document.getElementById('goals-tbody');
+            const loading = document.getElementById('goals-loading');
+            const container = document.getElementById('goals-container');
+
+            if (!MY_GOALS || MY_GOALS.length === 0) {
+                loading.innerText = 'Сборов пока нет';
+                return;
+            }
+
+            loading.style.display = 'none';
+            container.style.display = 'block';
+            tbody.innerHTML = '';
+
+            MY_GOALS.forEach(goal => {
+                const percent = goal.target > 0 
+                    ? Math.min(Math.round((goal.current / goal.target) * 100), 100) 
+                    : 0;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="goal-title">${goal.title}</td>
+                    <td>
+                        <div class="liquid-progress-bar">
+                            <div class="liquid-progress-fill" style="width: ${percent}%"></div>
+                            <span class="progress-percent">${percent}%</span>
+                        </div>
+                    </td>
+                    <td class="goal-amount">${goal.current.toLocaleString('ru-RU')} / <span class="goal-target">${goal.target.toLocaleString('ru-RU')} ₽</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderGoals);
+    </script>
 </body>
 </html>
