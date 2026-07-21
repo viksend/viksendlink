@@ -8,14 +8,12 @@
 }
 
 body, html {
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
     overflow-x: hidden;
+    overflow-y: auto;
     background-color: #030107; /* Ультра-глубокий космический черный */
     color: #f5f5f7;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
 }
 
 /* --- Слой частиц --- */
@@ -28,22 +26,19 @@ body, html {
     z-index: 1;
 }
 
-/* --- ДИНАМИЧЕСКИЙ ОСТРОВОК (Apple Dynamic Island) --- */
+/* --- ДИНАМИЧЕСКИЙ ОСТРОВОК (Плашка Сотрудничество) --- */
 .dynamic-island {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    
-    width: 190px;
-    height: 40px;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 210px;
+    height: 42px;
     padding: 0 16px;
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+    border-radius: 22px;
     
     overflow: hidden;
     cursor: pointer;
@@ -67,7 +62,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 38px;
+    height: 40px;
     font-size: 0.82rem;
     font-weight: 500;
     color: #e2dbe9;
@@ -83,7 +78,7 @@ body, html {
 .island-content {
     opacity: 0;
     visibility: hidden;
-    margin-top: 15px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -121,7 +116,7 @@ body, html {
 }
 
 .dynamic-island.active {
-    width: 320px;
+    max-width: 360px;
     height: 125px;
     padding: 0 22px;
     border-radius: 24px;
@@ -143,30 +138,20 @@ body, html {
     color: #c084fc;
 }
 
-@media (max-width: 480px) {
-    .dynamic-island {
-        top: 15px;
-    }
-    .dynamic-island.active {
-        width: calc(100% - 30px);
-        max-width: 360px;
-    }
-}
-
 /* --- ЖЕСТКИЙ ЦЕНТРОВОЙ КОНТЕЙНЕР --- */
 .content-wrapper {
     position: relative;
     z-index: 2;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    max-width: 390px !important; /* Четкий размер по ширине карточки */
-    margin: 0 auto !important; /* Выравнивание по центру горизонтали */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 390px;
+    margin: 0 auto;
     min-height: 100vh;
-    padding: 80px 20px 40px 20px;
-    gap: 30px; 
+    padding: 40px 20px;
+    gap: 18px; 
 }
 
 /* Жесткое скрытие стандартного блика Vanilla-Tilt */
@@ -180,7 +165,7 @@ body, html {
 /* --- ОСНОВНОЙ КОНТЕЙНЕР (Карточка) --- */
 .container {
     position: relative;
-    padding: 50px 30px;
+    padding: 40px 30px;
     width: 100%;
     text-align: center;
     border-radius: 32px;
@@ -222,18 +207,18 @@ body, html {
 
 /* --- Блок профиля --- */
 .profile-header {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     transform: translateZ(35px);
 }
 
 .avatar {
-    width: 110px;
-    height: 110px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(168, 85, 247, 0.3);
     box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
-    margin-bottom: 24px;
+    margin-bottom: 18px;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -250,7 +235,7 @@ body, html {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .nickname-container h1 {
@@ -299,7 +284,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 24px;
+    padding: 16px 22px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.03);
     border-radius: 20px;
@@ -401,7 +386,7 @@ body, html {
 
 /* --- Футер --- */
 .footer {
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 0.72rem;
     color: #494156;
     text-transform: lowercase;
@@ -410,7 +395,7 @@ body, html {
 /* --- СТИЛИ ТАБЛИЦЫ DONATEX (Liquid Glass) --- */
 .donate-container {
     position: relative;
-    padding: 30px 25px;
+    padding: 25px 20px;
     width: 100%;
     border-radius: 28px;
     background: rgba(12, 8, 20, 0.35);
@@ -429,11 +414,11 @@ body, html {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .donate-header h2 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 60%, #c084fc 100%);
@@ -442,7 +427,7 @@ body, html {
 }
 
 .goal-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #a855f7;
     filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
 }
@@ -450,20 +435,20 @@ body, html {
 .glass-loader {
     font-size: 0.88rem;
     color: #8c829d;
-    padding: 20px 0;
+    padding: 15px 0;
     text-align: center;
 }
 
 .liquid-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px; 
+    border-spacing: 0 8px; 
     text-align: left;
 }
 
 .liquid-table th {
-    padding: 0 10px 5px 10px;
-    font-size: 0.75rem;
+    padding: 0 8px 4px 8px;
+    font-size: 0.72rem;
     font-weight: 600;
     color: #494156;
     text-transform: uppercase;
@@ -471,8 +456,8 @@ body, html {
 }
 
 .liquid-table td {
-    padding: 14px 10px;
-    font-size: 0.88rem;
+    padding: 12px 8px;
+    font-size: 0.85rem;
     vertical-align: middle;
     background: rgba(255, 255, 255, 0.01);
     border-top: 1px solid rgba(255, 255, 255, 0.02);
@@ -482,11 +467,11 @@ body, html {
 
 .liquid-table td:first-child {
     border-left: 1px solid rgba(255, 255, 255, 0.02);
-    border-radius: 14px 0 0 14px;
+    border-radius: 12px 0 0 12px;
 }
 .liquid-table td:last-child {
     border-right: 1px solid rgba(255, 255, 255, 0.02);
-    border-radius: 0 14px 14px 0;
+    border-radius: 0 12px 12px 0;
     text-align: right;
 }
 
@@ -504,7 +489,7 @@ body, html {
 .goal-amount {
     font-weight: 600;
     color: #ffffff;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     white-space: nowrap;
 }
 
@@ -514,7 +499,7 @@ body, html {
 
 .liquid-progress-bar {
     position: relative;
-    width: 100px;
+    width: 85px;
     height: 16px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -539,7 +524,7 @@ body, html {
 .progress-percent {
     position: relative;
     z-index: 2;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
     color: #ffffff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
@@ -547,17 +532,12 @@ body, html {
 
 @media (max-width: 480px) {
     .content-wrapper {
-        padding-top: 70px;
+        padding: 25px 15px;
     }
     .donate-container {
-        padding: 22px 15px;
-        border-radius: 24px;
+        padding: 20px 12px;
     }
     .liquid-progress-bar {
-        width: 80px;
-    }
-    .liquid-table td {
-        padding: 12px 6px;
-        font-size: 0.8rem;
+        width: 70px;
     }
 }
